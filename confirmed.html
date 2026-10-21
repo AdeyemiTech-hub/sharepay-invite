@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Email confirmed — SharePay</title>
+<style>
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       background:#D8ECE7;color:#10201C;font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
+  .card{max-width:380px;margin:24px;padding:32px 24px;background:#fff;border-radius:20px;
+        text-align:center;box-shadow:0 8px 24px rgba(6,63,56,.16)}
+  h1{font-size:22px;margin:0 0 8px}
+  p{margin:0 0 20px;line-height:1.5;color:#5E6E68}
+  .btn{display:block;padding:14px 16px;border-radius:14px;font-weight:600;text-decoration:none;
+       background:#0C6B5E;color:#fff}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Email confirmed ✓</h1>
+  <p>Your SharePay account is ready. Open the app and sign in.</p>
+  <a class="btn" id="open" href="sharepay://">Open SharePay</a>
+</div>
+<script>
+  if (/android/i.test(navigator.userAgent)) {
+    document.getElementById('open').href =
+      'intent://#Intent;scheme=sharepay;package=com.adeyemitech.SharePay;end';
+  }
+</script>
+</body>
+</html>
