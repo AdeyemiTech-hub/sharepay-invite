@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're invited to a SharePay trip</title>
+<style>
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       background:#D8ECE7;color:#10201C;font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
+  .card{max-width:380px;margin:24px;padding:32px 24px;background:#fff;border-radius:20px;
+        text-align:center;box-shadow:0 8px 24px rgba(6,63,56,.16)}
+  h1{font-size:22px;margin:0 0 8px}
+  p{margin:0 0 20px;line-height:1.5;color:#5E6E68}
+  .btn{display:block;padding:14px 16px;border-radius:14px;font-weight:600;text-decoration:none;margin-top:10px}
+  .primary{background:#0C6B5E;color:#fff}
+  .secondary{background:#D8ECE7;color:#063F38}
+  #fallback,#bad{display:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>You're invited to a trip</h1>
+  <div id="opening"><p>Opening SharePay…</p></div>
+  <div id="fallback">
+    <p>Don't have SharePay yet? Install it, then tap this invite link again.</p>
+    <a class="btn primary" id="open" href="#">Open in SharePay</a>
+    <a class="btn secondary" href="https://play.google.com/store/apps/details?id=com.adeyemitech.SharePay">Get it on Google Play</a>
+  </div>
+  <div id="bad"><p>This invite link is incomplete. Ask the organiser to send it again.</p></div>
+</div>
+<script>
+(function () {
+  var t = new URLSearchParams(location.search).get('t') || '';
+  var uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  var show = function (id) {
+    ['opening','fallback','bad'].forEach(function (x) {
+      document.getElementById(x).style.display = x === id ? 'block' : 'none';
+    });
+  };
+  if (!uuid.test(t)) { show('bad'); return; }
+  var scheme = 'sharepay://invite/' + t;
+  var isAndroid = /android/i.test(navigator.userAgent);
+  var target = isAndroid
+    ? 'intent://invite/' + t + '#Intent;scheme=sharepay;package=com.adeyemitech.SharePay;end'
+    : scheme;
+  document.getElementById('open').setAttribute('href', target);
+  location.href = target;
+  setTimeout(function () { if (!document.hidden) show('fallback'); }, 1800);
+})();
+</script>
+</body>
+</html>
